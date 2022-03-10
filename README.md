@@ -598,18 +598,18 @@ primeiros comandos
 texto
 
 ```bash
-ansible 192.168.0.32 -m ping
+ansible 192.168.0.34 -m ping
 ```
 apresentou erro
 
-```
+```bash
 [WARNING]: log file at /var/log/ansible.log is not writeable and we cannot create it, aborting
 
-192.168.0.32 | UNREACHABLE! => {
+192.168.0.34 | UNREACHABLE! => {
     "changed": false,
-    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.32 port 22: No route to host",
+    "msg": "Failed to connect to the host via ssh: root@192.168.0.34: Permission denied (publickey,password).",
     "unreachable": true
-
+}
 ```
 devemos modificar o arquivo ansible.cfg removendo o root e substituindo por seu usuário
 
@@ -620,16 +620,16 @@ sudo vim /etc/ansible/ansible.cfg
 
 repetido o comando
 
-deu um erro
+deu um erro novamente
+
+ansible 192.168.0.34 -u edemir -k -m ping
+
+ansible 192.168.0.34 -u edemir -k -m setup
+
 
 ```
-[WARNING]: log file at /var/log/ansible.log is not writeable and we cannot create it, aborting
 
-192.168.0.32 | UNREACHABLE! => {
-    "changed": false,
-    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.32 port 22: No route to host",
-    "unreachable": true
-}
+
 ```
 
 alterar o 
