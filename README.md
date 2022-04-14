@@ -10,5 +10,7 @@ Este é um repositório para estudos do Ansible voltado para Sysadmin.
 
 ## [ 04 - Inventory File ](ansible04/ansible04.md)
 
+## [ 05 - Roles e Tasks ](ansible05/ansible05.md)
+
 :smiley:
 :octocat:
