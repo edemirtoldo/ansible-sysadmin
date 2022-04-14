@@ -544,10 +544,8 @@ executar em modo verbose
 ansible 192.168.0.102 -u edemir -k -a "pwd" -vvv
 ```
 
-
-
 | Principais Parãmetros | Executa |
-|----------|:-------------:|
+|:----------:|:-------------:|
 | -i | Inventário |
 | -u | Usuário |
 | -k | Senha |
