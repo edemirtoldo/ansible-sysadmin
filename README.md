@@ -4,9 +4,13 @@ Este é um repositório para estudos do Ansible voltado para Sysadmin.
 este
 
 O Laboratório será composto por 3 maquinas criadas no virtualbox:
-- Windows Server 2012
-- Centos 8
-- Debian 10
+
+| Sistema Operacional | IP            |
+|---------------------|:-------------:|
+| Windows Server 2012 | 192.168.0.100 |
+|- Centos 8           | 192.168.0.101 |
+|- Debian 10          | 192.168.0.102 |
+
 
 ## Instalação do Ansible
 
@@ -545,7 +549,7 @@ roles_path              = /etc/ansible/roles
 
 #--- Users settings
 remote_user             = root
-sudo_user               = root
+#sudo_user               = root
 ask_pass                = no
 ask-sudo_pass           = no
 
@@ -582,7 +586,7 @@ which ansible
 
 ## Comanddos AD-HOC
 
-fazer uma copia do arquivos hosts no ansible
+Fazer uma copia do arquivos hosts no ansible
 
 ```bash
 cd /etc/ansible
@@ -600,8 +604,9 @@ primeiros comandos
 -m ping modulo de ping
 
 comando 
+
 ```bash
-ansible 192.168.0.34 -u edemir -k -m ping
+ansible 192.168.0.102 -u edemir -k -m ping
 ```
 retorno do comando
 ```bash
@@ -614,9 +619,11 @@ SSH password:
     "ping": "pong"
 }
 ```
+
 ```bash
 ansible 192.168.0.34 -u edemir -k -m setup
 ```
+
 resultado do setup da maquina
 
 ```bash
@@ -1095,6 +1102,10 @@ comando pwd
 ansible 192.168.0.34 -u edemir -k -a "pwd"
 ```
 
+executar em modo verbose
+```bash
+ansible 192.168.0.34 -u edemir -k -a "pwd" -vvv
+```
 
 alterar o 
 ask_pass = yes
