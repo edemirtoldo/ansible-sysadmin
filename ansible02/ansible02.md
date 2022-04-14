@@ -532,6 +532,7 @@ Doc: https://docs.ansible.com/ansible/latest/reference_appendices/config
 [defaults]
 
 #--- General settings
+interpreter_python      = auto_legacy_silent
 forks                   = 5
 log_path                = /var/log/ansible.log
 module_name             = command

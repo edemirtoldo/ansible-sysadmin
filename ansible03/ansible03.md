@@ -22,18 +22,26 @@ editar arquivo de hosts
 ```bash
 sudo vim hosts
 ```
-primeiros comandos
+### primeiros comandos
 
--u usuario
--k para exigir senha
--m ping modulo de ping
+modelo de comando
 
-comando 
+```bash
+ansible [pattern] -m [module] -a "[module options]"
+```
 
+modulo **ping** onde
+
+- -u usuario
+- -k para exigir senha
+- -m ping modulo de ping
+
+comando: 
 ```bash
 ansible 192.168.0.102 -u edemir -k -m ping
 ```
-retorno do comando
+retorno do comando:
+
 ```bash
 SSH password: 
 192.168.0.102 | SUCCESS => {
@@ -44,6 +52,7 @@ SSH password:
     "ping": "pong"
 }
 ```
+ansible facts - inventario processador cpu memoria disco etc
 
 ```bash
 ansible 192.168.0.102 -u edemir -k -m setup
@@ -499,40 +508,52 @@ SSH password:
 
 modulo systemd iniciando o serviço de ssh
 
--m systemd -a "name=ssh state=restarted"
+```bash
+ansible 192.168.0.102 -u edemir -k -m systemd -a "name=ssh state=restarted"
+```
+> vai dar erro já que o usuário não tem privilegios.
 
-ansible 192.168.0.101 -u edemir -k -m systemd -a "name=ssh state=restarted"
-
-elevar o privilegio opção:
-
--b 
-
-ansible 192.168.0.34 -u edemir -k -b -m systemd -a "name=ssh state=restarted"
-
-notamos que o resultado vem na cor amarela por que foi alterado quando não ocorre alteração o resultado é verde
-
-podemos consultar o status do serviço ssh
+elevar o privilegio com a opção: **-b** 
 
 ```bash
-ansible 192.168.0.34 -u edemir -k -b -m shell -a "systemctl status ssh"
+ansible 192.168.0.102 -u edemir -k -b -m systemd -a "name=ssh state=restarted"
+```
+
+>notamos que o resultado vem na cor amarela por que foi alterado quando não ocorre alteração o resultado é verde
+
+modulo shell nos podemos consultar o status do serviço ssh
+
+```bash
+ansible 192.168.0.102 -u edemir -k -b -m shell -a "systemctl status ssh"
 ```
 opção -K (maiusculo) digitar senha elevação de provilegio
 
 ```bash
-ansible 192.168.0.34 -u edemir -k -K -b -m shell -a "systemctl status ssh"
+ansible 192.168.0.102 -u edemir -k -K -b -m shell -a "systemctl status ssh"
 ```
-executando o mudulo comand por padrão
+### Executando o modulo comand por padrão
+
 comando pwd
 
 ```bash
-ansible 192.168.0.34 -u edemir -k -a "pwd"
+ansible 192.168.0.102 -u edemir -k -a "pwd"
 ```
 
 executar em modo verbose
 ```bash
-ansible 192.168.0.34 -u edemir -k -a "pwd" -vvv
+ansible 192.168.0.102 -u edemir -k -a "pwd" -vvv
 ```
 
-alterar o 
-ask_pass = yes
-ask-sudo_pass = no
+
+
+| Principais Parãmetros | Executa |
+|----------|:-------------:|
+| -i | Inventário |
+| -u | Usuário |
+| -k | Senha |
+| -K | Solicita a senha de elevação de privilégio |
+| -b | Executar elevação de privilégio |
+| -v | Verbose |
+| -m | Define o modulo a ser utilizado |
+| -a | Argumento do modulo |
+| --help | Ajuda |
