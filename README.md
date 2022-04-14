@@ -10,15 +10,4 @@ Este é um repositório para estudos do Ansible voltado para Sysadmin.
 
 ## [ 04 - Inventory File ](ansible04/ansible04.md)
 
-
-
-
-ref:
-
-```bash
-
-```
-[-nome do link-](teste)
-
-correção do texto
-
+:smiley:
