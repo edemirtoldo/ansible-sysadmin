@@ -1,7 +1,6 @@
 # Ansible para Sysadmin - repositório
 
 Este é um repositório para estudos do Ansible voltado para Sysadmin.
-este
 
 - [ 01 - Introdução ao Ansible ](ansible01/ansible01.md)
 - [ 02 - Instalação e configuração do Ansible ](ansible02/ansible02.md)

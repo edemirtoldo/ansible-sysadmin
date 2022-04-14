@@ -1,4 +1,4 @@
-# Comandos ad-hoc
+## Comandos ad-hoc
 
 Introdução a linha de comando ad-hoc
 
@@ -10,8 +10,6 @@ Local onde está o binario do ansible
 which ansible
 ```
 > /usr/local/bin/ansible
-
-## Comanddos AD-HOC
 
 Fazer uma copia do arquivos hosts no ansible
 
@@ -38,7 +36,7 @@ ansible 192.168.0.102 -u edemir -k -m ping
 retorno do comando
 ```bash
 SSH password: 
-192.168.0.34 | SUCCESS => {
+192.168.0.102 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python"
     },
@@ -48,17 +46,17 @@ SSH password:
 ```
 
 ```bash
-ansible 192.168.0.34 -u edemir -k -m setup
+ansible 192.168.0.102 -u edemir -k -m setup
 ```
 
 resultado do setup da maquina
 
 ```bash
 SSH password: 
-192.168.0.34 | SUCCESS => {
+192.168.0.102 | SUCCESS => {
     "ansible_facts": {
         "ansible_all_ipv4_addresses": [
-            "192.168.0.34"
+            "192.168.0.102"
         ],
         "ansible_all_ipv6_addresses": [
             "2804:14d:7839:9d7d:a00:27ff:feff:2f6e",

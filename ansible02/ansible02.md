@@ -32,9 +32,8 @@ seguinte ordem.:
 Doc: https://docs.ansible.com/ansible/latest/reference_appendices/config
 
 
-### ansible.cfg - padrão
 
-```bash
+```
 # config file for ansible -- https://ansible.com/
 # ===============================================
 
