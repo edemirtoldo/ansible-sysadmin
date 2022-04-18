@@ -332,3 +332,52 @@ Ordem de prioridades
 
 ## Tasks e Templates
 
+Como aplicar as variáveis dentro de uma Task (tarefa) ou Template (modelo).
+
+acessar
+
+```bash
+cd roles/common/tasks
+```
+
+criar um arquivo main.yml
+
+existem 3 formas de se utilizar 
+
+```yml
+---
+
+- name: Instalação de pacotes
+  yum: name{{item}} state=latest
+  with_items:
+    - "{{ common_packages }}"
+
+- name: Instalação de pacotes
+  yum: name{{item}} state=latest
+  with_items:
+    - tcpdump
+    - vim
+    - gcc
+
+- name: Instalação de pacotes
+  yum: name{{ common_packages }} state=latest
+
+---
+```
+
+Templates são arquivos que você vai importar para uma tasks seu target.
+- Files arquivos estaticos.
+- Templaters são arquivos dinamicos possivel ter interação sobre eles.
+
+## Linguagem YAML (Básico para ansible)
+
+
+
+[Documentação YAML](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html#yaml-syntax)
+
+
+## O que são tasks?
+
+São as tarefas que voce vai executar quando você quer aplicar uma determinada ação dentro de um host especifico.
+
+[Module Index Ansible](https://docs.ansible.com/ansible/2.9/modules/modules_by_category.html)
