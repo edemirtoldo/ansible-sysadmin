@@ -216,7 +216,7 @@ www | UNREACHABLE! => {
 
 #### Teste de prioridade no host_vars/*
 
-
+Vamos criar os diretórios host_vars e group_vars
 
 #### Teste de prioridade no group_vars/all
 
