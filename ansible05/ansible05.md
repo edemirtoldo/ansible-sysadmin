@@ -214,10 +214,121 @@ www | UNREACHABLE! => {
 }
 ```
 
-#### Teste de prioridade no host_vars/*
+### Teste de prioridade no host_vars/*
 
 Vamos criar os diretórios host_vars e group_vars
 
-#### Teste de prioridade no group_vars/all
+```bash
+mkdir host_vars group_vars
+```
+> Deve ser criado na raiz do diratório corrente.
 
-#### Teste de prioridade no roles/vars/main.yml
+Devemos criar o arquivo com o mesmo nome dos hosts neste caso temos no arquivo de inventario o host com o nome de **www**
+
+```bash
+vim host_vars/www
+```
+o seguinte conteúdo:
+
+~~~
+ansible_ssh_port: 62222 
+~~~
+
+Vamos roda o seguinte comando para testar a nossa alteração.
+
+```bash
+ansible -i hosts www -m ping
+```
+será apresentado o seguinte erro na porta **62222**
+
+```bash
+www | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.101 port 62222: No route to host",
+    "unreachable": true
+}
+```
+### Teste de prioridade no group_vars/all e roles_vars/main.yml
+
+
+Vamos testar
+
+```bash
+vim group_vars/servidores_web
+```
+conteúdo
+
+```bash
+ansible_ssh_port: 72222
+ ```
+
+erro apesar de incluir no group_vars a prioridade é de host_vars.
+
+```bash
+www | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host 192.168.0.101 port 62222: No route to host",
+    "unreachable": true
+}
+```
+Um boa prática é a seguinte:
+
+Remover do diretorio host_vars o arquivo **www**
+
+Renomear o arquivo **servidores_www** que está em group_vars para **servidores**
+
+Inventory
+
+```bash
+[servidores_web]
+www ansible_ssh_host=192.168.0.101
+
+[servidores_bd]
+mysql ansible_ssh_host=192.168.0.102
+
+[servidores:children]
+servidores_web 
+servidores_bd
+```
+
+arquivo servidores
+
+```bash
+ansible_ssh_port: 22
+ansible_ssh_user: edemir
+ansible_ssh_pass: 123qwe
+ansible_become: yes
+ansible_become_method: sudo
+ansible_become_user: edemir
+ansible_become_pass: 123qwe
+ansible_connection: ssh
+```
+e roda o comando 
+
+```bash
+ansible -i hosts www -m ping
+```
+
+Resultado ok:
+
+```bash
+www | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/libexec/platform-python"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+Ordem de prioridades
+
+1. defaults/mainyaml 
+2. host_vars/www
+3. inventory (variaveisdew hosts)
+4. group_vars/servidores
+5. inventory (variaveis de grupo)
+
+> o core sempre será o defaults
+
+## Tasks e Templates
+
