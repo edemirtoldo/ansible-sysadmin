@@ -1,5 +1,5 @@
 [servidores_web]
-www ansible_ssh_host=192.168.0.101
+www ansible_ssh_host=192.168.0.101 ansible_ssh_port=2222
 
 [servidores_bd]
 mysql ansible_ssh_host=192.168.0.102
@@ -8,7 +8,7 @@ mysql ansible_ssh_host=192.168.0.102
 servidores_web 
 servidores_bd
 
-[servidores_bd:vars]
+[servidores:vars]
 ansible_ssh_port=22
 ansible_ssh_user=edemir
 ansible_ssh_pass=123qwe
