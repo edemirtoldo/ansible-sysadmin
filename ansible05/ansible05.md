@@ -322,7 +322,7 @@ www | SUCCESS => {
 ```
 Ordem de prioridades
 
-1. defaults/mainyaml 
+1. defaults/main.yml 
 2. host_vars/www
 3. inventory (variaveisdew hosts)
 4. group_vars/servidores
