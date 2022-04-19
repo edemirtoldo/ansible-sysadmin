@@ -612,7 +612,7 @@ vamos alterar em tasks uma nova tarefa.
 
 - name: Instalação do nginx
   yum: name=nginx state=latest
-  notify: Restart nginx
+  notify: Restart Nginx
 
 ...
 
@@ -629,3 +629,9 @@ criar arquivo main.yml em handlers
 ...
 
 ```
+rodar novamente o playbook
+
+```bash
+ansible-playbook -i hosts playbook.yml
+```
+
