@@ -382,4 +382,250 @@ São as tarefas que voce vai executar quando você quer aplicar uma determinada 
 
 [Module Index Ansible](https://docs.ansible.com/ansible/2.9/modules/modules_by_category.html)
 
-ok
+## Trabalhando com tasks - Tarefas básicas
+
+tarefas
+
+1 - Atualização do Sistema operacional com o modulo yum.
+2 - Instalçao de pacotes com yum.
+3 - criar um link simbolico para o timezone da maquina destino.
+
+roles/common/tasks/main.yml
+
+```bash
+---
+
+# Gerenciamento de pacotes e atualização do sistema operacional.
+
+- name: Atualização do sistema operacional
+  yum: name=* state=latest update_cache=yes
+
+- name: Instalação de pacotes
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - net-tools
+      - vim
+      - nmap
+
+# Configuração de Timezone
+
+- name: Configurando Timezone
+  file: src=/usr/share/zoneinfo/America/Sao_Paulo dest=/etc/localtime state=link force=yes
+
+...
+```
+group_vars/servidores - alterado usuario root para poder atulizar o SO.
+
+```bash
+ansible_ssh_port: 22
+ansible_ssh_user: edemir
+ansible_ssh_pass: 123qwe
+ansible_become: yes
+ansible_become_method: sudo
+ansible_become_user: root
+ansible_become_pass: 123qwe
+ansible_connection: ssh
+```
+playbook.yml
+
+```bash
+- name: Default Playbook - Starting Deploy
+  hosts: www
+  roles:
+    - common
+```
+comando para rodar a playbook
+
+```bash
+ansible-playbook -i hosts playbook.yml
+```
+
+## Trabalhando com Files e Templates
+
+> roles/common/files/
+
+Files são arquivos estaticos fixos que serão copiados para a maquina destino. (backup, configurações)
+
+criar um arquivo de backup (backup.tar.gz) no diretorio com o seguinte comando
+
+```bash
+cd roles/common/files/
+sudo tar Jcvf backup.tar.xz /etc
+sudo chown edemir: backup.tar.xz 
+```
+
+Alterando no diretorio tasks
+
+```bash
+---
+
+# Gerenciamento de pacotes e atualização do sistema operacional.
+
+- name: Atualização do sistema operacional
+  yum: name=* state=latest update_cache=yes
+
+- name: Instalação de pacotes
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - net-tools
+      - vim
+      - nmap
+
+# Configuração de Timezone
+
+- name: Configurando Timezone
+  file: src=/usr/share/zoneinfo/America/Sao_Paulo dest=/etc/localtime state=link force=yes
+
+# Copia de arquivo
+
+- name: Copiando arquivo de Backup
+  copy: src=backup.tar.xz dest=/tmp/backup.tar.xz
+...
+```
+rodar a playbook novamente
+
+```bash
+ansible-playbook -i hosts playbook.yml
+```
+
+
+Templates são arquivos dinamicos com variaveis.
+
+> roles/common/templates/
+
+criar o arquivo motd em templates
+
+```bash
+-------------------------------------------------
+               Servidor Web
+
+Hostname.: "{{ ansible_fqdn }}"
+Endereço IP.: "{{ ansible_all_ipv4_addresses }}"
+
+-------------------------------------------------
+```
+
+incluir no arquivo main.yml de tasks o seguinte conteudo
+
+```bash
+---
+
+# Gerenciamento de pacotes e atualização do sistema operacional.
+
+- name: Atualização do sistema operacional
+  yum: name=* state=latest update_cache=yes
+
+- name: Instalação de pacotes
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - net-tools
+      - vim
+      - nmap
+
+# Configuração de Timezone
+
+- name: Configurando Timezone
+  file: src=/usr/share/zoneinfo/America/Sao_Paulo dest=/etc/localtime state=link force=yes
+
+# Copia de arquivo
+
+- name: Copiando arquivo de Backup
+  copy: src=backup.tar.xz dest=/tmp/backup.tar.xz
+
+- name: Copiando um template
+  template: src=motd dest=/etc/motd force=yes owner=root group=root
+  
+...
+```
+
+rodar o a playbook novamente
+
+```bash
+ansible-playbook -i hosts playbook.yml
+```
+ao acessar o host via ssh veremos na tela inicial a mensagem de boas vindas
+
+```bash
+edemir@ironman:~/ansible-sysadmin$ ssh edemir@192.168.0.101
+-------------------------------------------------
+               Servidor Web
+
+Hostname.: "localhost.localdomain"
+Endereço IP.: "['192.168.0.101']"
+
+-------------------------------------------------
+Last login: Tue Apr 19 16:13:07 2022 from 192.168.0.173
+[edemir@localhost ~]$ 
+
+```
+
+
+## Trabalhando com Handlers
+
+> roles/common/handlers/
+
+Diretório destinado a trabalhar com acões  posteriores a determinada tarefa.
+
+vamos alterar em tasks uma nova tarefa.
+
+```bash
+---
+
+# Gerenciamento de pacotes e atualização do sistema operacional.
+
+- name: Atualização do sistema operacional
+  yum: name=* state=latest update_cache=yes
+
+- name: Instalação de pacotes
+  yum:
+    name: "{{ packages }}"
+    state: latest
+  vars:
+    packages:
+      - net-tools
+      - vim
+      - nmap
+
+# Configuração de Timezone
+
+- name: Configurando Timezone
+  file: src=/usr/share/zoneinfo/America/Sao_Paulo dest=/etc/localtime state=link force=yes
+
+# Copia de arquivo
+
+- name: Copiando arquivo de Backup
+  copy: src=backup.tar.xz dest=/tmp/backup.tar.xz
+
+- name: Copiando um template
+  template: src=motd dest=/etc/motd force=yes owner=root group=root
+  
+# Instalação do Ngnix
+
+- name: Instalação do nginx
+  yum: name=nginx state=latest
+  notify: Restart nginx
+
+...
+
+```
+
+criar arquivo main.yml em handlers
+
+```bash
+---
+
+-name: Restart Nginx
+  systemd: state=restarted enabled=yes daemon_reload=yes name=nginx
+
+...
+
+```

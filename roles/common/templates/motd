@@ -1,0 +1,7 @@
+-------------------------------------------------
+               Servidor Web
+
+Hostname.: "{{ ansible_fqdn }}"
+Endereço IP.: "{{ ansible_all_ipv4_addresses }}"
+
+-------------------------------------------------
