@@ -12,7 +12,7 @@ Este é um repositório para estudos do Ansible voltado para Sysadmin.
 
 ## [ 05 - Roles e Tasks ](ansible05/ansible05.md)
 
-## [ 06 - Roles e Tasks ](ansible05/ansible05.md)
+## [ 06 - Playbooks ](ansible06/ansible06.md)
 
 :smiley:
 :octocat:

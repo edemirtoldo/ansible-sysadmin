@@ -635,3 +635,110 @@ rodar novamente o playbook
 ansible-playbook -i hosts playbook.yml
 ```
 
+## Trabalhando com Meta
+
+diretório roles/common/meta
+
+Necessidade de criar dependencias de uma role com uma outra.
+
+Vamos criar uma dependencia da role common.
+
+vamos copiar common para php
+
+``` bash
+cp -pr common/ php
+
+```
+Agora temos duas roles, vamos remover de php arquivos desnecessários.
+
+``` bash
+cd php
+rm -rf handlers/main.yml 
+rm -rf files/backup.tar.xz 
+rm -rf templates/motd 
+```
+dentro de php vamos alterar o arquivo tasks/main.yml 
+
+```
+---
+
+# Instalação do PHP
+
+- name: Instalação do pacote php
+  yum: name=php state=latest 
+
+...
+
+```
+
+Vamos sair da role php e vamos para a roles common e vamos criar um arquivo dentro de meta/main.yml
+
+
+```
+---
+
+dependencies:
+  - { role: php }
+
+...
+
+```
+
+O Ansible interpreta da seguinte forma isso:
+quando ele for executar a role com o nome de common o primeiro diretorio a validar vai ser o meta.
+
+rodando a playbook 
+
+``` bash
+ansible-playbook -i hosts playbook.yml
+```
+
+##  Trabalhando com Condições
+
+Vamos criar uma role com condições especificas por exemplo de atualizações.
+
+ansible -i hosts www -m setup > teste
+
+vamos replicar dentro de roles o diretorio php para updates
+
+``` bash
+cp -pr php/ updates
+```
+vamos em updates/takss/main.yml para editar.
+
+```bash
+
+---
+
+# Update Red Hat Like
+
+- name: Update System Red Hat
+  yum: name=* state=latest security=yes
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+# Update Debian Like
+
+- name: Update System Debian
+  apt: update_cache=yes upgrade=yes 
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  
+...
+
+```
+
+agora vamos alterar o arquivo de playbook.yml, comentando a linha da roles common e incluindo a role updates e em hosts deixar para todas all
+
+``` bash
+- name: Default Playbook - Starting Deploy
+  hosts: all
+  roles:
+    #- common
+    - updates
+```
+
+basta rodar o ansible
+
+``` bash
+ansible-playbook -i hosts playbook.yml
+```
+O Ansible conseguiu atulizar cada OS especifico.

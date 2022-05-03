@@ -32,6 +32,6 @@
 
 - name: Instalação do nginx
   yum: name=nginx state=latest
-  notify: Restart Nginx
+  notify: "Restart Nginx"
 
 ...
