@@ -14,5 +14,9 @@ Este é um repositório para estudos do Ansible voltado para Sysadmin.
 
 ## [ 06 - Playbooks ](ansible06/ansible06.md)
 
+## [ 07 - Targets Microsoft Windows ](ansible07/ansible07.md)
+
+## [ 08 - Features Ansible ](ansible08/ansible08.md)
+
 :smiley:
 :octocat:
