@@ -34,9 +34,57 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 &$file -Version 5.1 -Username $username -Password $password -Verbose
 ```
 
+Vamos criar um diretorio
+
+mkdir Test
+mkdir Tests/ansible
+cd Tests/ansible/
+
+vamos criar o arquivo hosts informando ip, usuario e senha
+
+hosts
+
+``` bash
+[windows]
+192.168.0.100 ansible_user=administrator ansible_password="password"
+```
+criar o diretorio group_vars
+
+```bash
+mkdir group_vars
+```
+Vamos acessar o diretorio group_vars e criar o arquivo windows
+informamos a porta de uso tipo de conexão e ignorar o certificado.
+
+```bash
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+```
+Comando para testar a conexão winrm
+
+```bash
+ansible -i hosts all -m win_ping
+```
+resultado do comando
+
+```bash
+192.168.0.100 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+Podemos pegar o modulo setup do host
+
+```bash
+ansible -i hosts all -m setup
+```
+
 Windows Server 
 
 como descobrir 
 
+```ps
 winrm enumered winrm/config/Listener
-
+```
