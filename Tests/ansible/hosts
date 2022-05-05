@@ -1,0 +1,2 @@
+[windows]
+192.168.0.100 ansible_user=administrator ansible_password="1234Qwer@"
