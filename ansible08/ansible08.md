@@ -35,7 +35,7 @@ Parametro -s mostra uma especie de playbook de um determinado modulo.
 ```bash
 ansible-doc -s yum
 ```
- 
+
 
 ### Ansible Vault
 
@@ -59,7 +59,7 @@ $ ansible-vault create arquivo.yml
 Ao executar, será solicitado a criação de uma senha para criptografar os dados. Em seguida, o arquivo abrirá normalmente para edição. Finalizada a criação do arquivo, ao salvar, o conteúdo do arquivo será algo como.:
 
 ```bash
-bash-5.0$ cat arquivo.yml 
+bash-5.0$ cat arquivo.yml
 $ANSIBLE_VAULT;1.1;AES256
 36653333643631373131613033666366383065343035393265643865383364383964623239383062
 3666303236656530616330383331396466633937656662350a646264306239393662643738373231
@@ -73,24 +73,24 @@ $ANSIBLE_VAULT;1.1;AES256
 Para editar um arquivo criptografado com o ansible-vault, basta executar o comando
 
 ```bash
- $ ansible-vault edit arquivo.yml 
+ $ ansible-vault edit arquivo.yml
  ```
- 
+
  Feito isso, será solicitado a senha utilizado de criptografia do arquivo.
 
 ### Visualizando um arquivo
 
-Uma forma de visualizar o conteúdo do arquivo criptografado é através do comando 
+Uma forma de visualizar o conteúdo do arquivo criptografado é através do comando
 
 ```bash
-$ ansible-vault view arquivo.yml 
+$ ansible-vault view arquivo.yml
 ```
 
 Feito isso, será solicitado a senha utilizado de criptografia do arquivo.
 
 ### Criptografando arquivos
 
-Uma característica bem interessante do ansible-vault, é que ele permite realizar a criptografia de um ou mais arquivos (já existente) simultaneamente. Para realizar tal ação, basta executar 
+Uma característica bem interessante do ansible-vault, é que ele permite realizar a criptografia de um ou mais arquivos (já existente) simultaneamente. Para realizar tal ação, basta executar
 
 ```bash
 $ ansible-vault encrypt arquivo1.yml arquivo2.yml
@@ -115,7 +115,7 @@ Após criar, alterar seus arquivos com o ansible-vault, você já pode realizar 
 - **--vault-password-file**: esta opção é utilizada para você adicioar a senha de Vault em um arquivo. Esta pode ser uma boa saída para integrações contínuas, por exemplo. A sintaxe ficaria algo parecido como.
 
 ```bash
-$ ansible-playbook -i hosts -u user 
+$ ansible-playbook -i hosts -u user
 --vault-password-file password_file playbook.yml
 ```
 
@@ -127,4 +127,4 @@ $ ansible-playbook -i hosts -u user --ask-vault-pass playbook.yml
 
 > Nota.: É importante ressaltar que e a forma de executar a Playbook (sintaxe) irá variar de acordo com seu ambiente e configurações. O importante são os parâmetros **--vault-password-file** e **--ask-vault-pass**
 
-FIM
+FIM xx
